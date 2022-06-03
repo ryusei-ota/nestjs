@@ -4,9 +4,6 @@ import { User } from 'src/@generated/prisma-nestjs-graphql/user/user.model'
 import { CreateOneUserArgs } from 'src/@generated/prisma-nestjs-graphql/user/create-one-user.args';
 import { UsersService } from 'src/users/users.service';
 import { FindFirstUserArgs } from 'src/@generated/prisma-nestjs-graphql/user/find-first-user.args';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { UpdateOneUserArgs } from 'src/@generated/prisma-nestjs-graphql/user/update-one-user.args';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -23,13 +20,7 @@ export class UsersResolver {
     async createUser(
         @Args() args: CreateOneUserArgs
     ) {
+        args.data.password = await bcrypt.hash(args.data.password, 10);
         return this.userService.createUser(args);
-    }
-
-    @Mutation(() => User)
-    update(
-        @Args() args: UpdateOneUserArgs
-    ) {
-        return this.userService.update(args)
     }
 }

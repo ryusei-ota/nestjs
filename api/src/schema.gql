@@ -109,7 +109,6 @@ enum UserScalarFieldEnum {
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
-  update(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   refreshToken: LoginResponse!
   logout: Boolean!
@@ -119,16 +118,6 @@ input UserCreateInput {
   email: String!
   name: String!
   password: String!
-}
-
-input UserUpdateInput {
-  email: StringFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-  password: StringFieldUpdateOperationsInput
-}
-
-input StringFieldUpdateOperationsInput {
-  set: String
 }
 
 input LoginUserInput {
