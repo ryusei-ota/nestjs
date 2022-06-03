@@ -6,13 +6,13 @@ import { UsersService } from 'src/users/users.service';
 import { FindFirstUserArgs } from 'src/@generated/prisma-nestjs-graphql/user/find-first-user.args';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UpdateOneUserArgs } from 'src/@generated/prisma-nestjs-graphql/user/update-one-user.args';
 
 @Resolver(() => User)
 export class UsersResolver {
     constructor(private readonly userService: UsersService) {}
 
     @Query(() => User)
-    @UseGuards(JwtAuthGuard)
     user(
         @Args() args: FindFirstUserArgs
     ) {
@@ -23,7 +23,13 @@ export class UsersResolver {
     async createUser(
         @Args() args: CreateOneUserArgs
     ) {
-        args.data.password = await bcrypt.hash(args.data.password, 10);
         return this.userService.createUser(args);
+    }
+
+    @Mutation(() => User)
+    update(
+        @Args() args: UpdateOneUserArgs
+    ) {
+        return this.userService.update(args)
     }
 }
