@@ -25,4 +25,4 @@ export class UsersService {
      async update(args: UpdateOneUserArgs): Promise<User> {
          return this.prisma.user.update(args)
      }
-}
+}あ
